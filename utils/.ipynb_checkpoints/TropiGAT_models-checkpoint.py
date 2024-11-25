@@ -38,7 +38,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 # --------------------------------------------------
 # The model : TropiGAT
 class TropiGAT_small_module(torch.nn.Module):
-    def __init__(self,hidden_channels, heads, edge_type = ("B2", "expressed", "B1") , dropout = 0.2, conv = GATv2Conv):
+    def __init__(self,hidden_channels, heads, edge_type = ("B2", "expressed", "B1") ,dropout = 0.2, conv = GATv2Conv):
         super().__init__()
         # GATv2 module :
         self.conv = conv((-1,-1), hidden_channels, add_self_loops = False, heads = heads, dropout = dropout, shared_weights = True)
@@ -88,7 +88,7 @@ class TropiGAT_big_module(torch.nn.Module):
 
 # Version of the model capturing the attention weights :
 class TropiGAT_small_module_attention(torch.nn.Module):
-    def __init__(self,hidden_channels, heads, edge_type = ("B2", "expressed", "B1") , dropout = 0.2, conv = GATv2Conv):
+    def __init__(self,hidden_channels, heads, edge_type = ("B2", "expressed", "B1") ,dropout = 0.2, conv = GATv2Conv):
         super().__init__()
         # GATv2 module :
         self.conv = conv((-1,-1), hidden_channels, add_self_loops = False, heads = heads, dropout = dropout, shared_weights = True, return_attention_weights = True)
@@ -108,8 +108,6 @@ class TropiGAT_small_module_attention(torch.nn.Module):
         x_B1_dict, weights  = self.conv((graph_data.x_dict["B2"], graph_data.x_dict["B1"]), graph_data.edge_index_dict[("B2", "expressed", "B1")], return_attention_weights=True)
         x = self.linear_layers(x_B1_dict)
         return x.view(-1), weights 
-    
-    
 
 class TropiGAT_big_module_attention(torch.nn.Module):
     def __init__(self,hidden_channels, heads, edge_type = ("B2", "expressed", "B1") ,dropout = 0.2, conv = GATv2Conv):
@@ -160,10 +158,34 @@ class TropiGAT_small_sage_module(torch.nn.Module):
     def forward(self, graph_data):
         x_B1_dict  = self.hetero_conv(graph_data.x_dict, graph_data.edge_index_dict)
         x = self.linear_layers(x_B1_dict["B1"])
-        return x.view(-1)
+        return x.view(-1) 
+
+class TropiGAT_big_sage_module(torch.nn.Module):
+    def __init__(self,hidden_channels, edge_type = ("B2", "expressed", "B1") ,dropout = 0.2, conv = SAGEConv):
+        super().__init__()
+        # GATv2 module :
+        self.conv = conv((-1,-1), hidden_channels)
+        self.hetero_conv = HeteroConv({edge_type: self.conv})
+        # FNN layers : 
+        self.linear_layers = nn.Sequential(nn.Linear(hidden_channels, 1280),
+                                           nn.BatchNorm1d(1280),
+                                           nn.LeakyReLU(),
+                                           torch.nn.Dropout(dropout),
+                                           nn.Linear(1280, 720),
+                                           nn.BatchNorm1d(720),
+                                           nn.LeakyReLU(),
+                                           torch.nn.Dropout(dropout),
+                                           nn.Linear(720 , 240),
+                                           nn.BatchNorm1d(240),
+                                           nn.LeakyReLU(),
+                                           torch.nn.Dropout(dropout),
+                                           nn.Linear(240, 1)
+                                          )        
+    def forward(self, graph_data):
+        x_B1_dict = self.hetero_conv(graph_data.x_dict, graph_data.edge_index_dict)
+        x = self.linear_layers(x_B1_dict["B1"])
+        return x.view(-1) 
     
-
-
 
 
 # 2 - Training
