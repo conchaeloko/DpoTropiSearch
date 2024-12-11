@@ -58,7 +58,7 @@ def make_query_graph(embeddings) :
     
     return query_graph
 
-def make_ensemble_TropiGAT_r(path_ensemble, dico_best_para, UF = False) : 
+def make_ensemble_TropiGAT_r(path_ensemble, dico_best_para, big_heads = False ,UF = False) : 
     """
     This function builds a dictionary with all the models that are part of the TropiGAT predictor
     Input : Path of the models
@@ -79,9 +79,13 @@ def make_ensemble_TropiGAT_r(path_ensemble, dico_best_para, UF = False) :
         if GNN_model.endswith(".pt"):
             KL_type = GNN_model.split(".")[0]
             try:
+                if big_heads == False :
+                    att_heads = 1
+                else :
+                    att_heads = local_dico[KL_type.split("__")[0]]["att_heads"]
                 model = TropiGAT_models.TropiGAT_small_module(
                     hidden_channels=1280,
-                    heads=local_dico[KL_type.split("__")[0]]["att_heads"],
+                    heads=att_heads,
                     dropout=0
                 )
                 model.load_state_dict(torch.load(f"{path_ensemble}/{GNN_model}"))
