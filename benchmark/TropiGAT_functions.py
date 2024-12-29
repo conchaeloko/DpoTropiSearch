@@ -58,7 +58,7 @@ def make_query_graph(embeddings) :
     
     return query_graph
 
-def make_ensemble_TropiGAT_r(path_ensemble, dico_best_para, big_heads = False ,UF = False) : 
+def make_ensemble_TropiGAT_r(path_ensemble, dico_best_para, big_heads = True , UF = False) : 
     """
     This function builds a dictionary with all the models that are part of the TropiGAT predictor
     Input : Path of the models
@@ -331,6 +331,15 @@ def run_prediction(query_graph, dico_ensemble) :
             dico_predictions[KL_type] = probabilities
         else :
             continue
+
+    return dico_predictions
+
+def run_prediction_extended(query_graph, dico_ensemble) :
+    dico_predictions = {}
+    for KL_type in dico_ensemble :
+        model = dico_ensemble[KL_type]
+        prediction, probabilities = make_predictions(model, query_graph)
+        dico_predictions[KL_type] = probabilities
 
     return dico_predictions
 
