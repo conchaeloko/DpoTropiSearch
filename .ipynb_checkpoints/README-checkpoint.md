@@ -1,76 +1,110 @@
-DpoTropiSearch
+# DpoTropiSearch
 
-This repository contains the implementation and data for DpoTropiSearch, a research project aimed at predicting the capsular type-specificity of phage depolymerases targeting Klebsiella spp. using machine learning approaches. The project includes models, datasets, and methods to model and predict depolymerase-host interactions based on both prophage and lytic phage data.
-Table of Contents
+This repository contains the implementation and data for **DpoTropiSearch**, a research project aimed at predicting the capsular type-specificity of phage depolymerases targeting *Klebsiella* spp. using machine learning approaches. The project includes models, datasets, and methods to model and predict depolymerase-host interactions based on both prophage and lytic phage data.
 
-    Project Overview
-    Repository Structure
-    Installation
-    Usage
-        Data Preparation
-        Model Training
-        Benchmarking
-    Results
-    Citing DpoTropiSearch
+## Table of Contents
 
-Project Overview
+- [Project Overview](#project-overview)
+- [Repository Structure](#repository-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Data Preparation](#data-preparation)
+  - [Model Training](#model-training)
+  - [Benchmarking](#benchmarking)
+- [Results](#results)
+- [Citing DpoTropiSearch](#citing-dpotropisearch)
 
-Klebsiella phages use depolymerases to break down bacterial polysaccharide capsules as part of the infection process. This project leverages Klebsiella prophages and their associated depolymerase domains to predict capsular (KL) type specificity using two main machine learning approaches:
+## Project Overview
 
-    TropiGAT - A graph attention network-based model that aggregates depolymerase embeddings to predict KL-type association.
-    TropiSEQ - A sequence clustering-based model using random forests to classify KL types based on depolymerase domain presence.
+*Klebsiella* phages use depolymerases to break down bacterial polysaccharide capsules as part of the infection process. Understanding and predicting the specificity of these depolymerases can aid in developing phage therapies and understanding phage-host interactions. This project leverages machine learning techniques to predict the capsular type-specificity of phage depolymerases.
 
-These models provide an ensemble approach for predicting KL-type specificity and can generalize across prophages and lytic phages, enhancing their utility for both therapeutic and industrial applications.
-Repository Structure
+## Repository Structure
 
-    data/: Jupyter notebooks for data processing and preparation, including genome downloading, prophage detection, and depolymerase domain delineation.
-    model/: Scripts and resources for the TropiGAT and TropiSEQ models.
-    benchmark/: Scripts for benchmarking the TropiGAT and TropiSEQ models, including metrics calculation and results compilation.
-    logger/ and utils/: Logging and utility functions for data handling and model processing.
-    saved/: Placeholder for model checkpoints or saved artifacts.
+The repository is organized as follows:
 
-Installation
-Requirements
+- `benchmark/` - Contains benchmarking scripts and results.
+- `data_collection/` - Scripts and data related to the collection and preprocessing of datasets.
+- `trainer/` - Includes model training scripts and configurations.
+- `utils/` - Utility scripts and helper functions.
+- `other/` - Miscellaneous files and scripts.
+- `LICENSE` - License information for the project.
+- `README.md` - This README file.
 
-    Python 3.9 or later
-    Install dependencies:
+## Installation
 
-    pip install -r requirements.txt
+To set up the project environment, follow these steps:
 
-Setup
+1. **Clone the repository:**
 
-After installing dependencies, ensure the following:
+   ```bash
+   git clone https://github.com/conchaeloko/DpoTropiSearch.git
+   cd DpoTropiSearch
+   ```
 
-    Necessary datasets are prepared using the notebooks in data/.
-    Models are configured according to the model/ directory structure.
+2. **Install dependencies:**
 
-Usage
-Data Preparation
+   Ensure you have [Python 3.x](https://www.python.org/downloads/) installed. Then, install the required Python packages:
 
-Data preparation includes processing bacterial genomes, annotating depolymerase domains, and constructing the training datasets:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-    Run the notebooks in data/ to download, preprocess, and annotate data for the models.
+   *Note: The `requirements.txt` file should list all necessary dependencies.*
 
-Model Training
+## Usage
 
-Training the TropiGAT and TropiSEQ models requires running the appropriate scripts under model/:
+### Data Preparation
 
-    TropiGAT: Train the graph attention model for KL type prediction.
-    TropiSEQ: Train the sequence clustering model for KL type prediction.
+Before training the models, ensure that the datasets are properly prepared:
 
-Benchmarking
+1. **Data Collection:**
 
-The benchmarking scripts in benchmark/ allow you to evaluate model performance:
+   Use the scripts in the `data_collection/` directory to gather and preprocess the necessary data.
 
-    A1.TropiGAT_benchmark.ipynb: Runs benchmarks for TropiGAT.
-    A2.TropiSEQ_benchmark.ipynb: Runs benchmarks for TropiSEQ.
-    B.Compile_results.ipynb: Compiles and summarizes benchmark results.
+2. **Data Formatting:**
 
-Results
+   Ensure that the data is formatted correctly for model training. Refer to the scripts and documentation in the `data_collection/` directory for guidance.
 
-Results from the TropiGAT and TropiSEQ models demonstrated effective prediction of KL type specificity in both prophages and lytic phages, particularly for KL types with substantial training data. A database of predicted depolymerase-KL associations has been generated for use in therapeutic and industrial applications.
-Citing DpoTropiSearch
+### Model Training
 
-If you use DpoTropiSearch in your research, please cite the associated publication:
+To train the model:
 
-Concha-Eloko, R., Beamud, B., Domingo-Calap, P., & Sanjuán, R. (2024). Unlocking d
+1. **Configure Training Parameters:**
+
+   Modify the configuration files in the `trainer/` directory to set your desired training parameters.
+
+2. **Start Training:**
+
+   Run the training script:
+
+   ```bash
+   python trainer/train.py
+   ```
+
+   *Note: Replace `train.py` with the actual training script filename if it differs.*
+
+### Benchmarking
+
+To evaluate the model's performance:
+
+1. **Run Benchmarking Scripts:**
+
+   Use the scripts in the `benchmark/` directory to assess the model's accuracy and other performance metrics.
+
+## Results
+
+The results of the model training and benchmarking, including performance metrics and visualizations, can be found in the `benchmark/` directory. Detailed analyses and discussions are provided within the respective files.
+
+## Citing DpoTropiSearch
+
+If you use this code or data in your research, please cite the associated publication:
+
+```
+[Authors]. "Unlocking data in Klebsiella lysogens to predict capsular type-specificity of phage depolymerases." bioRxiv (2024). DOI: 10.1101/2024.07.24.604748
+```
+
+*Note: Replace `[Authors]` with the actual author names as listed in the publication.*
+
+---
+
+For any questions or issues, please open an issue in this repository or contact the authors directly.
