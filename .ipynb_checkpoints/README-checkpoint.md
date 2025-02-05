@@ -16,9 +16,7 @@ This repository contains the implementation and data for **DpoTropiSearch**, a r
 
 ## Project Overview
 
-Viral entry is a critical step in the infection process. *Klebsiella* spp. and other clinically relevant bacteria often express complex polysaccharide capsules that act as a barrier to phage entry. In turn, most lytic phages targeting *Klebsiella* encode depolymerases for capsule removal. This virus-host arms race has led to extensive genetic diversity in both capsules and depolymerases, complicating our ability to understand their interaction. 
-
-This study exploits the genetic information encoded in *Klebsiella* prophages to model the interplay between bacteria, prophages, and their depolymerases using a directed acyclic graph and a sequence clustering-based method. Both approaches showed significant predictive ability for prophage capsular tropism and, importantly, were transferrable to lytic phages. In addition to creating a comprehensive database linking depolymerase sequences to their specific targets, this study demonstrates the predictability of phage-host interactions at the subspecies level, providing new insights for improving the therapeutic and industrial applicability of phages.
+*Klebsiella* spp. often express polysaccharide capsules that act as barriers to phage infection. Many *Klebsiella* phages encode depolymerases to degrade these capsules, driving a co-evolutionary arms race. This project leverages prophage-encoded depolymerases and machine learning models to predict capsular tropism. By integrating sequence clustering and directed acyclic graph approaches, the study demonstrates the predictability of phage-host interactions at the subspecies level, offering valuable insights for phage therapy and industrial applications.
 
 ## Repository Structure
 
