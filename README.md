@@ -26,6 +26,7 @@ The repository is organized as follows:
 
 - `benchmark/` - Contains benchmarking scripts and results.
 - `data_collection/` - Scripts and data related to the collection and preprocessing of datasets.
+- `scripts/` - Contains notebooks to allow the use of the models on your own data.
 - `trainer/` - Includes model training scripts, optimization, and evaluations.
 - `utils/` - Utility scripts and helper functions.
 - `other/` - Miscellaneous files and scripts.
